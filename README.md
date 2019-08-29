@@ -50,7 +50,6 @@ The script produces output as follows:
     Getting change bar information from PDF...
       Creating multipage TIFF image file for change bars...
       Getting change bar heights...
-    convert-im6.q16: geometry does not contain image `/tmp/test_orig.tiff' @ warning/attribute.c/GetImageBoundingBox/247.
         Total changed pages detected: 5
           3 6 7 8 10
         Total change sections: 3
@@ -59,7 +58,15 @@ The script produces output as follows:
           10
     Creating annotated PDF file 'test_orig.pdf'...
 
-(Any "geometry does not contain image" messages are harmless.)
+If there is no change on the first page, a marker is added to take you to the first change.
+
+The change information text box at the bottom turns gray when the next page with a change
+is also the next page in the document (to let you know that the content to review is
+contiguous.)
+
+On the page with the last change, the text box is colored green. Clicking on it will return
+you to the first page with a change (not the first page in the document) if you want to
+re-review the changes.
 
 # Known Limitations
 
