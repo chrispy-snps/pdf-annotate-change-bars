@@ -4,7 +4,7 @@ Analyzes a PDF file with change bars, then adds clickable links to step through 
 # Introduction
 In our technical publications flow, we save PDF files with change bars, then give those files to reviewers to comment on the changes. However, for large (1000+ page) documents, it was painful for the reviewers to search for the next set of change bars.
 
-This perl script analyzes a PDF file for change bars, then adds navigation links along the bottom to jump to the next page with change bars. As you click anywhere within the bottom bar annotation, the viewer will jump to the next change-bar page.
+This perl script analyzes a PDF file for change bars, then adds navigation links along the bottom to jump to the next page with change bars. As you click anywhere within the bottom bar annotation, the viewer will jump to the next change-bar page. The horizontal position of the text box is proportional to your progress through the changed pages.
 
 ![example annotated PDF](https://github.com/chrispy-snps/pdf-annotate-change-bars/blob/master/example.gif)
 
