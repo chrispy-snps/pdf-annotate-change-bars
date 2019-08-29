@@ -6,6 +6,8 @@ In our technical publications flow, we save PDF files with change bars, then giv
 
 This perl script analyzes a PDF file for change bars, then adds navigation links along the bottom to jump to the next page with change bars. As you click anywhere within the bottom bar annotation, the viewer will jump to the next change-bar page.
 
+![example annotated PDF](https://github.com/chrispy-snps/pdf-annotate-change-bars/blob/master/example.gif)
+
 # Prerequisites
 
 This perl script runs in linux. If you're running Windows 10, it also runs on Windows Subsystem for Linux (WSL).
