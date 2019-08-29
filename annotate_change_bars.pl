@@ -18,12 +18,14 @@
 # v0.6  chrispy  08/29/2019
 #  add real command-line parsing
 #  suppress harmless warning from 'convert'
+#  fix bug with paths with directories
 
 
 use strict;
 use POSIX;
 use Getopt::Long 'HelpMessage';
 use List::Util qw(min);
+use File::Basename;
 
 my $gs = (grep {-e $_} ('/usr/bin/gs', '/depot/ghostscript-9.18/bin/gs'))[0];  # use the first file that exists
 my $TMPDIR = (grep {-e $_} ('/SCRATCH', '/tmp'))[0];  # use the first directory that exists
@@ -54,7 +56,7 @@ if ($pdf_info =~ /^Producer:\s+GPL Ghostscript/m) {
 }
 
 # get PDF filename info
-my ($base, $suffix) = ($pdf_file =~ /(.*)\.(pdf)$/i) or die 'Weird PDF filename';
+my ($base, $path, $suffix) = fileparse($pdf_file, qr/\.pdf$/i);
 
 # create multipage TIFF of change bars
 print "Getting change bar information from PDF...\n";
@@ -125,7 +127,7 @@ foreach my $s (@sections) {
 my $view = "/View [/XYZ 0 ${page_height_pts} 0]";  # upper-left of page at same zoom
 my $full_ann_bbox = get_annotation_bbox(-1);  # get a full-width annotation box
 
-open(FILE, ">${base}_ann.txt");
+open(FILE, ">$TMPDIR/${base}_ann.txt");
 print FILE "[  /Title (CHANGE BAR REVIEWS) /Page 0 /Count ".scalar(@sections)." /OUT pdfmark\n";
 
 # write change bar TOC bookmarks
@@ -162,9 +164,9 @@ foreach my $page (@changed_pages) {
 close(FILE);
 
 print "Creating annotated PDF file '$new_pdf_file'...\n";
-my $temp_pdf_file = "${base}_temp.${suffix}";
-my $rc = system ("$gs -q -o ${temp_pdf_file} -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress ${base}_ann.txt ${pdf_file}");
-unlink "${base}_ann.txt";
+my $temp_pdf_file = "${path}/${base}_temp${suffix}";
+my $rc = system ("$gs -q -o ${temp_pdf_file} -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress $TMPDIR/${base}_ann.txt ${pdf_file}");
+unlink "$TMPDIR/${base}_ann.txt";
 if ($rc != 0) {unlink "$temp_pdf_file"; die "Ghostscript failed with return code $rc";}
 rename $temp_pdf_file, $new_pdf_file;
 
