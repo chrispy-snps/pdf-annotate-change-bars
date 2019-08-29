@@ -45,6 +45,22 @@ Next, run the utility on your PDF file as follows:
 
 If you do not specify the `-o` option, the file is modified in-place with the annotated file.
 
+The script produces output as follows:
+
+    Getting change bar information from PDF...
+      Creating multipage TIFF image file for change bars...
+      Getting change bar heights...
+    convert-im6.q16: geometry does not contain image `/tmp/test_orig.tiff' @ warning/attribute.c/GetImageBoundingBox/247.
+        Total changed pages detected: 5
+          3 6 7 8 10
+        Total change sections: 3
+          3
+          6 7 8
+          10
+    Creating annotated PDF file 'test_orig.pdf'...
+
+(Any "geometry does not contain image" messages are harmless.)
+
 # Known Limitations
 
 Most in-browser PDF viewers do not render text in the navigation bar at the bottom. (Specifically, they do not render /FreeText pdfmark annotations.) However, the link is still clickable and navigation still works. Standalone PDF viewing programs generally work fine.
